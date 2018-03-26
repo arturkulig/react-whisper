@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>React RP Store test</title>
+        <style>
+        * {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body, html, #app { min-height: 100vh }
+        #app {
+            display: flex;
+            align-items: stretch;
+            width: 100vw;
+            min-height: 100vh;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            background: #88F;
+            color: white;
+            border: none;
+            border-bottom: 1px solid rgb(77, 77, 182);
+            border-radius: 5px;
+        }
+        button:active, button:focus {
+            outline: none;
+            background: rgb(85, 103, 207);
+        }
+        pre { background: #eee; border-radius: 10px; padding: 10px; }
+        .row {
+            display: flex;
+            align-items: stretch;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .flex {
+            flex: 1;
+        }
+
+        th { font-size: 20px; }
+        td {
+            padding: 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="./index.tsx"></script>
+    </body>
+</html>

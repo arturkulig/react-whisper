@@ -1,0 +1,6 @@
+.cache
+node_modules
+*.js
+*.js.map
+!docs/*.js
+!docs/*.js.map

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "types": ["react"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "checkJs": false,
+    "maxNodeModuleJsDepth": 30,
+    "lib": ["dom", "es6", "esnext.asynciterable"],
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "importHelpers": false,
+    "downlevelIteration": true
+  },
+  "exclude": ["node_modules", "*.js"],
+  "include": [
+    "/**/*.ts*",
+  ]
+}

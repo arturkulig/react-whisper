@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "start": "rm -rf ./docs; rm -f *.js; parcel -d ./docs ./test/index.html",
+    "build": "parcel build -d ./docs ./test/index.html",
+    "preversion": "tsc && npm run build"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,15 @@
   "bugs": {
     "url": "https://github.com/arturkulig/react-rp-store/issues"
   },
-  "homepage": "https://github.com/arturkulig/react-rp-store#readme"
+  "homepage": "https://github.com/arturkulig/react-rp-store#readme",
+  "dependencies": {
+    "@types/react": "^16.0.41",
+    "react": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^16.0.4",
+    "parcel-bundler": "^1.6.2",
+    "react-dom": "^16.2.0",
+    "typescript": "^2.7.2"
+  }
 }
