@@ -6,7 +6,8 @@
   "scripts": {
     "start": "rm -f *.js; parcel ./test/index.html",
     "docs": "NODE_ENV=production parcel build -d ./docs --public-url ./ ./test/index.html",
-    "preversion": "tsc && npm run docs"
+    "build": "tsc",
+    "preversion": "npm run build && npm run docs"
   },
   "repository": {
     "type": "git",
