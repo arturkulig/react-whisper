@@ -16,6 +16,7 @@ This one is most basic. It is **just** a state distributor.
 
 ### Create Store
 ```tsx
+import { createStore } from 'react-rp-store'
 const Store = createStore<number>(0)
 ```
 
@@ -38,6 +39,7 @@ This quite close to what reducer in Redux is. You provide it with values that ar
 
 ### Create Reducer
 ```tsx
+import { createReducer } from 'react-rp-store'
 const Reducer = createReducer<number, { op: 'add' | 'mult', value: number }>(
     0,
     (state, { op, value }) => ({ add: state + value, mult: state * value}[op])
@@ -66,6 +68,7 @@ To make it easier to understand, example is as synchronous as possible.
 
 ### Create Actor
 ```tsx
+import { createActor } from 'react-rp-store'
 const Actor = createActor<number, { op: 'add' | 'mult', value: number }>(
     0,
     async (mailbox, next) => {
