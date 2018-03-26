@@ -1,4 +1,5 @@
 .cache
 docs
+test
 dist
 node_modules
