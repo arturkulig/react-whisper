@@ -1,0 +1,19 @@
+{
+  "name": "react-rp-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arturkulig/react-rp-store.git"
+  },
+  "author": "Artur Kulig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arturkulig/react-rp-store/issues"
+  },
+  "homepage": "https://github.com/arturkulig/react-rp-store#readme"
+}
