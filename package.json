@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf ./docs; rm -f *.js; parcel -d ./docs ./test/index.html",
-    "build": "parcel build -d ./docs ./test/index.html",
-    "preversion": "tsc && npm run build"
+    "start": "rm -f *.js; parcel ./test/index.html",
+    "docs": "NODE_ENV=production parcel build -d ./docs --public-url ./ ./test/index.html",
+    "preversion": "tsc && npm run docs"
   },
   "repository": {
     "type": "git",

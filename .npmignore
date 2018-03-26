@@ -1,3 +1,4 @@
 .cache
 docs
+dist
 node_modules
