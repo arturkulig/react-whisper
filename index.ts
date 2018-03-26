@@ -44,7 +44,7 @@ function createStore<V>(defaultState: V) {
   return Store
 }
 
-function createReductor<V, A>(
+function createReducer<V, A>(
   defaultState: V,
   reductor: (state: V, action: A) => V
 ) {
@@ -152,4 +152,4 @@ function createActor<V, MSG>(
   return ActorStore
 }
 
-export { createStore, createReductor, createActor }
+export { createStore, createReducer, createActor }

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { createStore, createReductor, createActor } from '../index'
+import { createStore, createReducer, createActor } from '../index'
 
 const Store = createStore(0)
-const Reductor = createReductor(
+const Reducer = createReducer(
   0,
   (state: number, action: number) => state + action
 )
@@ -23,7 +23,7 @@ class App extends React.Component {
         <table>
           <tr>
             <th>Store</th>
-            <th>Reductor</th>
+            <th>Reducer</th>
             <th>Actor</th>
           </tr>
           <tr>
@@ -31,7 +31,7 @@ class App extends React.Component {
               <button onClick={() => Store.next(1)}>Store.next(1)</button>
             </td>
             <td>
-              <button onClick={() => Reductor.next(1)}>Reductor.next(1)</button>
+              <button onClick={() => Reducer.next(1)}>Reducer.next(1)</button>
             </td>
             <td>
               <button onClick={() => Actor.next(1)}>Actor.next(1)</button>
@@ -43,7 +43,7 @@ class App extends React.Component {
             </td>
             <td>
               <pre>
-                {`const Reductor = createReductor(
+                {`const Reducer = createReducer(
   0,
   (state: number, action: number) => state + action
 )`}
@@ -69,10 +69,10 @@ class App extends React.Component {
               </Store>
             </td>
             <td>
-              <pre>{`<Reductor>{v => 'State: ' + v}</Reductor>`}</pre>
-              <Reductor>
+              <pre>{`<Reducer>{v => 'State: ' + v}</Reducer>`}</pre>
+              <Reducer>
                 {(v) => <span style={{ fontSize: 30 }}>State: {v}</span>}
-              </Reductor>
+              </Reducer>
             </td>
             <td>
               <pre>{`<Actor>{v => 'State: ' + v}</Actor>`}</pre>
