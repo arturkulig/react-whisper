@@ -1,4 +1,4 @@
-# React Render Prop Store
+# React Whisper ️☝😮
 
 React and TypeScript -enabled shared state distributors leveraging `render prop` pattern for ease of access to data.
 
@@ -7,7 +7,7 @@ React and TypeScript -enabled shared state distributors leveraging `render prop`
 ## Install
 
 ```bash
-npm i react-rp-store
+npm i react-whisper
 ```
 
 ## Store
@@ -16,7 +16,7 @@ This one is most basic. It is **just** a state distributor.
 
 ### Create Store
 ```tsx
-import { createStore } from 'react-rp-store'
+import { createStore } from 'react-whisper'
 const Store = createStore<number>(0)
 ```
 
@@ -39,7 +39,7 @@ This quite close to what reducer in Redux is. You provide it with values that ar
 
 ### Create Reducer
 ```tsx
-import { createReducer } from 'react-rp-store'
+import { createReducer } from 'react-whisper'
 const Reducer = createReducer<number, { op: 'add' | 'mult', value: number }>(
     0,
     (state, { op, value }) => ({ add: state + value, mult: state * value}[op])
@@ -68,7 +68,7 @@ To make it easier to understand, example is as synchronous as possible.
 
 ### Create Actor
 ```tsx
-import { createActor } from 'react-rp-store'
+import { createActor } from 'react-whisper'
 const Actor = createActor<number, { op: 'add' | 'mult', value: number }>(
     0,
     async (mailbox, next) => {

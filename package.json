@@ -1,5 +1,5 @@
 {
-  "name": "react-rp-store",
+  "name": "react-whisper",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arturkulig/react-rp-store.git"
+    "url": "git+https://github.com/arturkulig/react-whisper.git"
   },
   "author": "Artur Kulig",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arturkulig/react-rp-store/issues"
+    "url": "https://github.com/arturkulig/react-whisper/issues"
   },
-  "homepage": "https://github.com/arturkulig/react-rp-store#readme",
+  "homepage": "https://github.com/arturkulig/react-whisper#readme",
   "dependencies": {
     "react": "^16.2.0"
   },
