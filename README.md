@@ -2,7 +2,7 @@
 
 React and TypeScript -enabled shared state distributors leveraging `render prop` pattern for ease of access to data.
 
-> type annotations in examples are TypeScript feature. TypeScript is optional, but recommended.
+> type annotations in examples are a TypeScript feature. TypeScript is optional, but recommended.
 
 ## Install
 
