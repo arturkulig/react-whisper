@@ -4,6 +4,7 @@
         <style>
         * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 14px;
             padding: 0;
             margin: 0;
             box-sizing: border-box;
@@ -24,11 +25,20 @@
             border-bottom: 1px solid rgb(77, 77, 182);
             border-radius: 5px;
         }
-        button:active, button:focus {
+        button:active {
             outline: none;
             background: rgb(85, 103, 207);
         }
-        pre { background: #eee; border-radius: 10px; padding: 10px; }
+        button:focus {
+            outline: none;
+            border-bottom: 1px solid rgb(42, 42, 136);
+        }
+        pre {
+            font-family: 'Courier New', Courier, monospace;
+            background: #eee;
+            border-radius: 10px;
+            padding: 10px;
+        }
         .row {
             display: flex;
             align-items: stretch;
@@ -42,8 +52,20 @@
             flex: 1;
         }
 
-        th { font-size: 20px; }
+        th {
+            font-size: 30px;
+            padding: 10px;
+        }
+        th.section {
+            font-size: 20px;
+            border-top: 1px solid silver;
+        }
         td {
+            padding: 10px;
+        }
+
+        .state {
+            display: block;
             padding: 10px;
         }
         </style>

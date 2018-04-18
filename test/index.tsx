@@ -22,63 +22,113 @@ class App extends React.Component {
       <div className="flex column">
         <table>
           <tr>
-            <th>Store</th>
-            <th>Reducer</th>
+            <th style={{ width: '33%' }}>Store</th>
+            <th style={{ width: '33%' }}>Reducer</th>
             <th>Actor</th>
           </tr>
+
           <tr>
-            <td>
-              <button onClick={() => Store.next(1)}>Store.next(1)</button>
-            </td>
-            <td>
-              <button onClick={() => Reducer.next(1)}>Reducer.next(1)</button>
-            </td>
-            <td>
-              <button onClick={() => Actor.next(1)}>Actor.next(1)</button>
-            </td>
+            <th colSpan={3} className="section">
+              Instantiation
+            </th>
           </tr>
+
           <tr>
             <td>
-              <pre>const Store = createStore(0)</pre>
+              <pre>{`import {
+  createStore
+} from 'react-whisper'
+
+const initialValue = 0
+const Store = createStore(
+  initialValue
+)`}</pre>
+              <p>what's send to store is broadcasted though the store</p>
             </td>
             <td>
               <pre>
-                {`const Reducer = createReducer(
-  0,
-  (state: number, action: number) => state + action
+                {`import {
+  createReducer
+} from 'react-whisper'
+
+const initialValue = 0
+const Reducer = createReducer(
+  initialValue,
+  (state, action) => state + action
 )`}
               </pre>
+              <p>
+                given current state and sent message conclude new store state
+              </p>
             </td>
             <td>
-              <pre>{`const Actor = createActor(0, async (msgs, next) => {
-  let t = Date.now()
+              <pre>{`import {
+  createActor
+} from 'react-whisper'
 
-  for await (const msg of msgs) {
-    next(Date.now() - t)
-    t = Date.now()
+const initialValue = 0
+const Actor = createActor(
+  initialValue,
+  async (msgs, next) => {
+    let t = Date.now()
+
+    for await (const m of msgs) {
+      next(Date.now() - t)
+      t = Date.now()
+    }
   }
-})`}</pre>
+)`}</pre>
+              <p>
+                given a stream of messages you can update store whenever you
+                wish
+              </p>
             </td>
+          </tr>
+
+          <tr>
+            <th colSpan={3} className="section">
+              Reading from container
+            </th>
           </tr>
 
           <tr>
             <td>
               <pre>{`<Store>{v => 'State: ' + v}</Store>`}</pre>
-              <Store>
-                {(v) => <span style={{ fontSize: 30 }}>State: {v}</span>}
-              </Store>
+              <Store>{(v) => <span className="state">State: {v}</span>}</Store>
             </td>
             <td>
               <pre>{`<Reducer>{v => 'State: ' + v}</Reducer>`}</pre>
               <Reducer>
-                {(v) => <span style={{ fontSize: 30 }}>State: {v}</span>}
+                {(v) => <span className="state">State: {v}</span>}
               </Reducer>
             </td>
             <td>
               <pre>{`<Actor>{v => 'State: ' + v}</Actor>`}</pre>
-              <Actor>
-                {(v) => <span style={{ fontSize: 30 }}>State: {v}</span>}
-              </Actor>
+              <Actor>{(v) => <span className="state">State: {v}</span>}</Actor>
+            </td>
+          </tr>
+
+          <tr>
+            <th colSpan={3} className="section">
+              Modyfing a container
+            </th>
+          </tr>
+
+          <tr>
+            <td>
+              <button
+                onClick={() => Store.next(1)}
+              >{`( ) => Store.next(1)`}</button>
+            </td>
+            <td>
+              <button
+                onClick={() => Reducer.next(1)}
+              >{`( ) => Reducer.next(1)`}</button>
+            </td>
+            <td>
+              <button
+                onClick={() => Actor.next(1)}
+              >{`( ) => Actor.next(1)`}</button>
             </td>
           </tr>
         </table>
