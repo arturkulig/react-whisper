@@ -1,4 +1,4 @@
-# React Whisper ️☝😮
+# [React Whisper ️☝😮](https://arturkulig.github.io/react-whisper/)
 
 React and TypeScript -enabled shared state distributors leveraging `render prop` pattern for ease of access to data.
 
