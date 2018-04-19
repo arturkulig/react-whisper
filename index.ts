@@ -14,7 +14,9 @@ function createContainer<VALUE, MSG>(
   const instances: Set<React.Component<StoreProps<VALUE>>> = new Set()
 
   class Container extends React.Component<StoreProps<VALUE>> {
-    displayName = containerName
+    static get displayName() {
+      return containerName
+    }
 
     constructor(props) {
       super(props)
