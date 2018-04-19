@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "rm -f *.js; rm -f test/*.js; rm -f *.js.map; rm -f test/*.js.map; parcel ./test/index.html",
-    "docs": "NODE_ENV=production parcel build -d ./docs --public-url ./ ./test/index.html",
+    "docs": "rm -rf docs/*; NODE_ENV=production parcel build -d ./docs --public-url ./ ./test/index.html",
     "build": "tsc",
     "preversion": "npm run build && npm run docs"
   },
