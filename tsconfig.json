@@ -19,6 +19,6 @@
   },
   "exclude": ["node_modules", "*.js"],
   "include": [
-    "/**/*.ts*",
+    "index.ts",
   ]
 }

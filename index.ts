@@ -4,12 +4,18 @@ export interface StoreProps<T> {
   children?: (value: T, previousValue: T) => React.ReactNode
 }
 
-function createStore<V>(defaultState: V) {
-  let previousValue: V = null
-  let currentValue: V = defaultState
-  const instances: Set<Store> = new Set()
+function createContainer<VALUE, MSG>(
+  containerName: string,
+  initialValue: VALUE,
+  onMessage: (value: VALUE, msg: MSG) => void
+) {
+  let previousValue: VALUE = null
+  let currentValue: VALUE = initialValue
+  const instances: Set<React.Component<StoreProps<VALUE>>> = new Set()
 
-  class Store extends React.Component<StoreProps<V>> {
+  class Container extends React.Component<StoreProps<VALUE>> {
+    displayName = containerName
+
     constructor(props) {
       super(props)
       instances.add(this)
@@ -23,7 +29,7 @@ function createStore<V>(defaultState: V) {
       return currentValue
     }
 
-    static set value(nextValue: V) {
+    static set value(nextValue: VALUE) {
       previousValue = currentValue
       currentValue = nextValue
       for (const instance of instances) {
@@ -31,8 +37,11 @@ function createStore<V>(defaultState: V) {
       }
     }
 
-    static next(next: V | ((prev: V) => V)) {
-      Store.value = typeof next === 'function' ? next(currentValue) : next
+    static next(action: MSG | ((prev: VALUE) => MSG)) {
+      onMessage(
+        currentValue,
+        typeof action === 'function' ? action(currentValue) : action
+      )
     }
 
     render() {
@@ -41,95 +50,57 @@ function createStore<V>(defaultState: V) {
     }
   }
 
-  return Store
+  return Container
 }
 
-function createReducer<V, A>(
-  defaultState: V,
-  reductor: (state: V, action: A) => V
-) {
-  let previousValue: V = null
-  let currentValue: V = defaultState
-  const instances: Set<ReducedStore> = new Set()
+function createStore<VALUE>(initialValue: VALUE) {
+  const Container = createContainer<VALUE, VALUE>(
+    'Store',
+    initialValue,
+    handleMessage
+  )
 
-  class ReducedStore extends React.Component<StoreProps<V>> {
-    constructor(props) {
-      super(props)
-      instances.add(this)
-    }
-
-    componentWillUnmount() {
-      instances.delete(this)
-    }
-
-    static get value() {
-      return currentValue
-    }
-
-    static set value(nextValue: V) {
-      previousValue = currentValue
-      currentValue = nextValue
-      for (const instance of instances) {
-        instance.forceUpdate()
-      }
-    }
-
-    static next(next: A) {
-      ReducedStore.value = reductor(currentValue, next)
-    }
-
-    render() {
-      const { children } = this.props
-      return children(currentValue, previousValue)
-    }
+  function handleMessage(value: VALUE, msg: VALUE) {
+    Container.value = msg
   }
 
-  return ReducedStore
+  return Container
 }
 
-function createActor<V, MSG>(
-  defaultState: V,
-  actor: (msgBox: AsyncIterable<MSG>, next: (value: V) => void) => any
+function createReducer<VALUE, MSG>(
+  initialValue: VALUE,
+  reductor: (state: VALUE, action: MSG) => VALUE
 ) {
-  let previousValue: V = null
-  let currentValue: V = defaultState
-  const instances: Set<ActorStore> = new Set()
+  const Container = createContainer<VALUE, MSG>(
+    'Reducer',
+    initialValue,
+    handleMessage
+  )
 
+  function handleMessage(value: VALUE, msg: MSG) {
+    Container.value = reductor(value, msg)
+  }
+
+  return Container
+}
+
+function createActor<VALUE, MSG>(
+  initialValue: VALUE,
+  actor: (msgBox: AsyncIterable<MSG>, next: (value: VALUE) => void) => any
+) {
   const queue: MSG[] = []
   let releaseDispencer: Function = null
 
-  class ActorStore extends React.Component<StoreProps<V>> {
-    constructor(props) {
-      super(props)
-      instances.add(this)
-    }
+  const Container = createContainer<VALUE, MSG>(
+    'Actor',
+    initialValue,
+    handleMessage
+  )
 
-    componentWillUnmount() {
-      instances.delete(this)
-    }
-
-    static get value() {
-      return currentValue
-    }
-
-    static set value(nextValue: V) {
-      previousValue = currentValue
-      currentValue = nextValue
-      for (const instance of instances) {
-        instance.forceUpdate()
-      }
-    }
-
-    static next(next: MSG) {
-      queue.push(next)
-      if (releaseDispencer) {
-        releaseDispencer()
-      }
-    }
-
-    render() {
-      const { children } = this.props
-      return children(currentValue, previousValue)
+  function handleMessage(value: VALUE, msg: MSG) {
+    queue.push(msg)
+    if (releaseDispencer) {
+      releaseDispencer()
     }
   }
 
@@ -145,11 +116,11 @@ function createActor<V, MSG>(
       }
     })(),
     (v) => {
-      ActorStore.value = v
+      Container.value = v
     }
   )
 
-  return ActorStore
+  return Container
 }
 
 export { createStore, createReducer, createActor }
