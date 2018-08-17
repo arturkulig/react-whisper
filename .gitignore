@@ -6,3 +6,4 @@ node_modules
 !docs/*.js
 !docs/*.js.map
 .vscode
+.npmrc
