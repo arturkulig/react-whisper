@@ -15,10 +15,9 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "importHelpers": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "strict": true
   },
   "exclude": ["node_modules", "*.js"],
-  "include": [
-    "index.ts",
-  ]
+  "include": ["index.ts"]
 }

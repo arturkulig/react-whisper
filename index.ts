@@ -1,7 +1,7 @@
-import * as React from 'react'
+import * as React from "react";
 
 export interface StoreProps<T> {
-  children?: (value: T, previousValue: T) => React.ReactNode
+  children?: (value: T, previousValue: T | undefined) => React.ReactNode;
 }
 
 function createContainer<VALUE, MSG>(
@@ -9,64 +9,70 @@ function createContainer<VALUE, MSG>(
   initialValue: VALUE,
   onMessage: (value: VALUE, msg: MSG) => void
 ) {
-  let previousValue: VALUE = null
-  let currentValue: VALUE = initialValue
-  const instances: Set<React.Component<StoreProps<VALUE>>> = new Set()
+  let previous: { value: VALUE } | null = null;
+  let current: { value: VALUE } = { value: initialValue };
+  const instances: Set<React.Component<StoreProps<VALUE>>> = new Set();
 
   class Container extends React.Component<StoreProps<VALUE>> {
     static get displayName() {
-      return containerName
-    }
-
-    constructor(props) {
-      super(props)
-      instances.add(this)
-    }
-
-    componentWillUnmount() {
-      instances.delete(this)
+      return containerName;
     }
 
     static get value() {
-      return currentValue
+      return current.value;
     }
 
     static set value(nextValue: VALUE) {
-      previousValue = currentValue
-      currentValue = nextValue
+      previous = current;
+      current = { value: nextValue };
       for (const instance of instances) {
-        instance.forceUpdate()
+        instance.forceUpdate();
       }
+    }
+
+    constructor(props: StoreProps<VALUE>) {
+      super(props);
+      instances.add(this);
+    }
+
+    componentWillUnmount() {
+      instances.delete(this);
     }
 
     static next(action: MSG | ((prev: VALUE) => MSG)) {
       onMessage(
-        currentValue,
-        typeof action === 'function' ? action(currentValue) : action
-      )
+        current.value,
+        typeof action === "function" ? action(current.value) : action
+      );
     }
 
     render() {
-      const { children } = this.props
-      return children(currentValue, previousValue)
+      const { children } = this.props;
+      if (!children) {
+        return null;
+      }
+      if (typeof children !== "function") {
+        throw new Error("Container child should be a function");
+      }
+      return children(current.value, previous ? previous.value : undefined);
     }
   }
 
-  return Container
+  return Container;
 }
 
 function createStore<VALUE>(initialValue: VALUE) {
   const Container = createContainer<VALUE, VALUE>(
-    'Store',
+    "Store",
     initialValue,
     handleMessage
-  )
+  );
 
   function handleMessage(value: VALUE, msg: VALUE) {
-    Container.value = msg
+    Container.value = msg;
   }
 
-  return Container
+  return Container;
 }
 
 function createReducer<VALUE, MSG>(
@@ -74,55 +80,55 @@ function createReducer<VALUE, MSG>(
   reductor: (state: VALUE, action: MSG) => VALUE
 ) {
   const Container = createContainer<VALUE, MSG>(
-    'Reducer',
+    "Reducer",
     initialValue,
     handleMessage
-  )
+  );
 
   function handleMessage(value: VALUE, msg: MSG) {
-    Container.value = reductor(value, msg)
+    Container.value = reductor(value, msg);
   }
 
-  return Container
+  return Container;
 }
 
 function createActor<VALUE, MSG>(
   initialValue: VALUE,
   actor: (msgBox: AsyncIterable<MSG>, next: (value: VALUE) => void) => any
 ) {
-  const queue: MSG[] = []
-  let releaseDispencer: Function = null
+  const queue: MSG[] = [];
+  let releaseDispencer: Function | null = null;
 
   const Container = createContainer<VALUE, MSG>(
-    'Actor',
+    "Actor",
     initialValue,
     handleMessage
-  )
+  );
 
   function handleMessage(value: VALUE, msg: MSG) {
-    queue.push(msg)
+    queue.push(msg);
     if (releaseDispencer) {
-      releaseDispencer()
+      releaseDispencer();
     }
   }
 
   actor(
     (async function*() {
       while (true) {
-        await new Promise((r) => {
-          releaseDispencer = r
-        })
+        await new Promise(r => {
+          releaseDispencer = r;
+        });
         while (queue.length) {
-          yield queue.splice(0, 1)[0]
+          yield queue.splice(0, 1)[0];
         }
       }
     })(),
-    (v) => {
-      Container.value = v
+    v => {
+      Container.value = v;
     }
-  )
+  );
 
-  return Container
+  return Container;
 }
 
-export { createStore, createReducer, createActor }
+export { createStore, createReducer, createActor };
