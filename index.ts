@@ -26,6 +26,12 @@ function createContainer<VALUE, MSG>(
       previous = current;
       current = { value: nextValue };
       for (const instance of instances) {
+        if (!instance) {
+          throw new Error("Whisper expected non-null enlisted");
+        }
+        if (!instance.forceUpdate) {
+          throw new Error("Whisper expected component enlisted");
+        }
         instance.forceUpdate();
       }
     }
