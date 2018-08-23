@@ -11,7 +11,7 @@ function createContainer<VALUE, MSG>(
 ) {
   let previous: { value: VALUE } | null = null;
   let current: { value: VALUE } = { value: initialValue };
-  const instances: Set<React.Component<StoreProps<VALUE>>> = new Set();
+  const instances: Array<React.Component<StoreProps<VALUE>>> = [];
 
   class Container extends React.Component<StoreProps<VALUE>> {
     static get displayName() {
@@ -38,11 +38,11 @@ function createContainer<VALUE, MSG>(
 
     constructor(props: StoreProps<VALUE>) {
       super(props);
-      instances.add(this);
+      instances.push(this);
     }
 
     componentWillUnmount() {
-      instances.delete(this);
+      instances.splice(instances.indexOf(this), 1);
     }
 
     static next(action: MSG | ((prev: VALUE) => MSG)) {
