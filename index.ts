@@ -4,7 +4,14 @@ export interface StoreProps<T> {
   children?: (value: T, previousValue: T | undefined) => React.ReactNode;
 }
 
-type NonFunction = object | string | boolean | number | symbol;
+type NonFunction =
+  | object
+  | string
+  | boolean
+  | number
+  | symbol
+  | null
+  | undefined;
 
 function createContainer<VALUE, MSG extends NonFunction>(
   containerName: string,
