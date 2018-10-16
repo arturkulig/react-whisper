@@ -4,7 +4,9 @@ export interface StoreProps<T> {
   children?: (value: T, previousValue: T | undefined) => React.ReactNode;
 }
 
-function createContainer<VALUE, MSG>(
+type NonFunction = object | string | boolean | number | symbol;
+
+function createContainer<VALUE, MSG extends NonFunction>(
   containerName: string,
   initialValue: VALUE,
   onMessage: (value: VALUE, msg: MSG) => void
@@ -45,11 +47,12 @@ function createContainer<VALUE, MSG>(
       instances.splice(instances.indexOf(this), 1);
     }
 
-    static next(action: MSG | ((prev: VALUE) => MSG)) {
-      onMessage(
-        current.value,
-        typeof action === "function" ? action(current.value) : action
-      );
+    static next(action: MSG) {
+      onMessage(current.value, action);
+    }
+
+    static update(action: ((prev: VALUE) => MSG)) {
+      onMessage(current.value, action(current.value));
     }
 
     render() {
@@ -67,7 +70,7 @@ function createContainer<VALUE, MSG>(
   return Container;
 }
 
-function createStore<VALUE>(initialValue: VALUE) {
+function createStore<VALUE extends NonFunction>(initialValue: VALUE) {
   const Container = createContainer<VALUE, VALUE>(
     "Store",
     initialValue,
@@ -81,7 +84,7 @@ function createStore<VALUE>(initialValue: VALUE) {
   return Container;
 }
 
-function createReducer<VALUE, MSG>(
+function createReducer<VALUE, MSG extends NonFunction>(
   initialValue: VALUE,
   reductor: (state: VALUE, action: MSG) => VALUE
 ) {
@@ -98,7 +101,7 @@ function createReducer<VALUE, MSG>(
   return Container;
 }
 
-function createActor<VALUE, MSG>(
+function createActor<VALUE, MSG extends NonFunction>(
   initialValue: VALUE,
   actor: (msgBox: AsyncIterable<MSG>, next: (value: VALUE) => void) => any
 ) {
